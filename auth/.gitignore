@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ## p8 files
-.p8
+apple_private_key.p8
