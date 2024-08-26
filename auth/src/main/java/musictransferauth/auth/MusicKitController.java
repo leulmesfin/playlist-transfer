@@ -24,7 +24,7 @@ public class MusicKitController {
     @ResponseBody
     public ResponseEntity<String> getDeveloperToken() {
         try {
-            System.out.println("apple private key: " + AppleMusicApiKeys.getApplePrivateKey());
+            // System.out.println("apple private key: " + AppleMusicApiKeys.getApplePrivateKey());
             String token = getDevToken(AppleMusicApiKeys.getApplePrivateKey(),  AppleMusicApiKeys.getAppleKeyID(), AppleMusicApiKeys.getAppleTeamID());
             
             return ResponseEntity.ok(token); // http 200 success response

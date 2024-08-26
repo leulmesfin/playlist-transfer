@@ -22,7 +22,7 @@ public class AppleMusicApiKeys {
             while (scan.hasNextLine()) {
                 apple_private_key = apple_private_key.concat(scan.nextLine()).concat("\n"); // preserve the line breaks bc its a p8 file
             }
-            System.out.println("Apple private key: " + apple_private_key);
+            // System.out.println("Apple private key: " + apple_private_key);
             scan.close(); // close the scanner
             return apple_private_key.trim(); // remove the extra trailing new line
         } catch(FileNotFoundException e) {

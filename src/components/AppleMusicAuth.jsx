@@ -1,8 +1,11 @@
 import React from 'react'
 import useMusicKit from './MusicKitHook';
+import { useNavigate } from "react-router-dom";
 // hey
 const AppleMusicAuth = () => {
-  const musicKit = useMusicKit();
+  const {musicKit, instance} = useMusicKit();
+  
+  const navigate = useNavigate();
 
   const handleAuthorize = async () => {
     console.log("clicking apple btn: ", musicKit);
@@ -10,6 +13,7 @@ const AppleMusicAuth = () => {
         try {
             await musicKit.authorize();
             console.log("Auth successful!");
+            navigate("/result");
         } catch (error) {
             console.error("Auth failed! ", error);
         }

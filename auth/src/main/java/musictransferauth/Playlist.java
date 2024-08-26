@@ -2,25 +2,37 @@ package musictransferauth;
 
 public class Playlist {
     private final String name;
-    private final String uri;
-    private final String tracksHref;
+    private final String imageUrl;
+    private final Tracks tracksInfo;
+    private final String id; // playlist id
 
-    public Playlist(String name, String uri, String tracksHref) {
+    public Playlist(String name, String imageUrl, Tracks tracksInfo, String id) {
         this.name = name;
-        this.uri = uri;
-        this.tracksHref = tracksHref;
+        this.imageUrl = imageUrl;
+        this.tracksInfo = tracksInfo;
+        this.id = id;
     }
+
+    // implement a toString()
 
     // getters
     public String getName() {
         return name;
     }
 
-    public String getUri() {
-        return uri;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public String getTracksHref() {
-        return tracksHref;
+    public Tracks getTracks() {
+        return tracksInfo;
+    }
+
+    public String getID() {
+        return id;
+    }
+    @Override
+    public String toString() {
+        return "Playlist[name=" + this.name + ", imageUrl=" + this.imageUrl + ", tracksInfo=" + this.tracksInfo + ", id=" + this.id + "]";
     }
 }
