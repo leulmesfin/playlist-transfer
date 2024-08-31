@@ -9,10 +9,7 @@ export const ResultRoute = () => {
     
     useEffect(() => {
         const getPlaylists = async () => {
-            // console.log("music kit: ", musicKit);
-            // console.log("instance: ", instance);
             console.log("chosen playlists in result: ", selectedPlaylists);
-
         }
         getPlaylists();
     }, [])
@@ -67,11 +64,6 @@ const uploadPlaylistsToAppleMusic = async (musicKitInstance, playlists) => {
                     "type": "songs"
                 }
                 songIdList.push(trackData);
-                //const theSong = await getSong(musicKitInstance, songId)
-                // song id for testin: 187454421
-                // console.log("track id: ", songId)
-                //console.log("the song: ", theSong)
-                // console.log("tracklist ids: ", songIdList)
             } else {
                 console.log("OOPS! The track with name: " + song.name + " and artistName: " + song.artist + " does not exist in Apple Music :(");
             }
@@ -102,30 +94,6 @@ const uploadPlaylistsToAppleMusic = async (musicKitInstance, playlists) => {
         console.log("body before adding: ", body)
         addTracksToPlaylist(musicKitInstance, playlistId, body);
     }
-    // playlists.map(async (playlist) => {
-    //     // go thru each track, push to list and use for data
-    //     const songIdList = [];
-    //     await Promise.all(playlist.songs.map(async (song) => {
-    //         // verify if track exists in apple music before using it
-    //         const songId = await getSongId(musicKitInstance, song.name, song.artist)
-    //         if (songId) {
-    //             const trackData = {
-    //                 "id": songId,
-    //                 "type": "songs"
-    //             }
-    //             songIdList.push(trackData);
-    //             //const theSong = await getSong(musicKitInstance, songId)
-    //             // song id for testin: 187454421
-    //             // console.log("track id: ", songId)
-    //             //console.log("the song: ", theSong)
-    //             // console.log("tracklist ids: ", songIdList)
-    //         } else {
-    //             console.log("OOPS! The track with name: " + song.name + " and artistName: " + song.artist + " does not exist in Apple Music :(");
-    //         }
-    //     }));
-        // create data
-        
-    // })
 }
 
 const getSongId = async (musicKitInstance, songName, artist) => {
@@ -144,7 +112,6 @@ const getSongId = async (musicKitInstance, songName, artist) => {
         if (songData) { // if song exists in apple music, return the id
             return songData.results.songs.data[0].id;
         }
-        // console.log("song id from apple music: ", data.results.songs.data[0].id);
         return null;
     } catch (error) {
         console.log("error: " + error);
@@ -153,7 +120,6 @@ const getSongId = async (musicKitInstance, songName, artist) => {
 
 const getSong = async (musicKitInstance, songId) => {
     const url = new URL('https://api.music.apple.com/v1/catalog/us/songs/' + songId);
-
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -183,10 +149,5 @@ const addTracksToPlaylist = async (musicKitInstance, playlistId, body) =>  {
         })
         console.log(`Added track ${song.id}, status: ${response.status}`);
     }
-   
-
-    // const responseVal = response.text()
-    // console.log("response after adding tracks: ", responseVal);
-    // return response.status;
     return null;
 }

@@ -17,16 +17,14 @@ export type Playlist = {
 	imageUrl: string;
 	tracksInfo: Tracks;
 	id: string;
-	songs: Song;
+	// songs: Song;
 };
 
 const PlaylistsRoute = () => {
 	const [isSelected, setSelected] = useState(false);
 	const [playlists, setPlaylists] = useState<Playlist[]>([]);
-	const [playlistFetched, setPlaylistFetched] = useState<Playlist>(new Set());
-	// const [selectedPlaylists, setSelectedPlaylists] = useState<Playlist[]>([]);
 	const { selectedPlaylists, setSelectedPlaylists } = usePlaylist();
-	let songs = []
+	let songs = [];
 
 	const toggleSelect = async (playlist: Playlist) => {
 		const playlistFound = selectedPlaylists.some(
@@ -39,15 +37,7 @@ const PlaylistsRoute = () => {
 			);
 		} else {
 			// add the playlist to playlists
-			// const songs = await fetchPlaylistTracks(playlist.id); // get all the songs for the playlist
-			setPlaylistFetched(new Set(playlistFetched).add(playlist));
-			if (!(playlistFetched.has(playlist))) {
-				// playlist never selected yet, fetch its tracks
-				console.log("fetching playlist tracks...");
-				songs = await fetchPlaylistTracks(playlist.id); // get all the songs for the playlist
-			}
-			//const songs = [];
-			setSelectedPlaylists([...selectedPlaylists, { ...playlist, songs }]);
+			setSelectedPlaylists([...selectedPlaylists, { ...playlist}]);
 		}
 	};
 
@@ -69,6 +59,7 @@ const PlaylistsRoute = () => {
 						};
 					});
 					// setPlaylists(prevPlaylists => [...prevPlaylists, ...formattedPlaylists])
+					console.log("formatted playlists: ", formattedPlaylists);
 					setPlaylists((prevPlaylists) => formattedPlaylists);
 				})
 				.catch((error) => console.error("Error fetching playlists:", error));
@@ -125,4 +116,5 @@ const fetchPlaylistTracks = async (id: string) => {
 		return [];
 	}
 };
+
 export default PlaylistsRoute;
