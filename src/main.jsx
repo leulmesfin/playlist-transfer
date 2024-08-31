@@ -10,6 +10,8 @@ import PlaylistsRoute from "./routes/playlistsRoute";
 import { ResultRoute } from "./routes/result";
 import { MusicKitProvider } from "./components/MusicKitProvider";
 import { PlaylistProvider } from "./components/PlaylistProvider";
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
+import theme from "../theme";
 
 const router = createBrowserRouter([
   {
@@ -29,9 +31,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <MusicKitProvider>
-      <PlaylistProvider>
-        <RouterProvider router={router} />
-      </PlaylistProvider>
+      <ChakraProvider theme={theme}>
+        <PlaylistProvider>
+          <RouterProvider router={router} />
+        </PlaylistProvider>
+      </ChakraProvider>
     </MusicKitProvider>
   </React.StrictMode>
 );

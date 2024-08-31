@@ -1,6 +1,6 @@
 
 .card {
-  border: 1px solid hsl(0, 0%, 80%);
+  /* border: 1px solid hsl(0, 0%, 80%); */
   border-radius: 10px;
   box-shadow: 5px 5px 5px hsla(0, 0%, 0%, 0.1);
   padding: 20px;
@@ -22,4 +22,18 @@
   font-weight: 400;
   margin: 0;
   color: hsl(0, 0%, 20%)
+}
+
+button {
+  font-size: 1.25rem;
+  background-color: green;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  border: red;
+  color: black;
+}
+
+img {
+  border-radius: 15%;
 }
