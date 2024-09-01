@@ -7,11 +7,12 @@ import {
 import "./index.css";
 import Root from "./routes/root";
 import PlaylistsRoute from "./routes/playlistsRoute";
-import { ResultRoute } from "./routes/result";
+import { UploadRoute } from "./routes/upload";
 import { MusicKitProvider } from "./components/MusicKitProvider";
 import { PlaylistProvider } from "./components/PlaylistProvider";
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import theme from "../theme";
+import { ResultRoute } from "./routes/result";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/get-playlists",
     element: <PlaylistsRoute />,
+  },
+  {
+    path: "/upload",
+    element: <UploadRoute />,
   },
   {
     path: "/result",

@@ -10,7 +10,8 @@ const colors = {
         100: '#1DB954'
     },
     customBlack: {
-        50: '#000000'
+        50: '#000000',
+        100: 'rgb(18, 18, 18)'
     },
     customRed: {
         50: '#FA2D48'

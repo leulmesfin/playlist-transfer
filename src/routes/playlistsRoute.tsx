@@ -37,7 +37,7 @@ const PlaylistsRoute = () => {
 			);
 		} else {
 			// add the playlist to playlists
-			setSelectedPlaylists([...selectedPlaylists, { ...playlist}]);
+			setSelectedPlaylists([...selectedPlaylists, { ...playlist }]);
 		}
 	};
 
@@ -73,19 +73,14 @@ const PlaylistsRoute = () => {
 
 	return (
 		<div>
-			{/* <h1>Playlists</h1> */}
 			<VStack spacing={10}>
-				<VStack spacing={17}>
-					<Heading>Playlists</Heading>
-					{selectedPlaylists.length > 0 ? <AppleMusicAuth /> : null}
-				</VStack>
-
+				<Heading>Playlists</Heading>
+				
 				<SimpleGrid columns={3} spacing="20px">
 					{playlists.map((playlist: Playlist, index) => {
 						// console.log("playlists: ", playlists);
 						// console.log("playlist track info: ", playlist.tracksInfo);
 						return (
-							// <div key={index}> hey</div>
 							<CardComponent
 								key={playlist.tracksInfo.trackHref}
 								name={playlist.name}
@@ -98,6 +93,10 @@ const PlaylistsRoute = () => {
 						);
 					})}
 				</SimpleGrid>
+				<VStack paddingBottom={50}>
+					{selectedPlaylists.length > 0 ? <AppleMusicAuth /> : null}
+				</VStack>
+
 			</VStack>
 		</div>
 	);
