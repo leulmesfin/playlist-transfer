@@ -21,7 +21,7 @@ export const MusicKitProvider = ({ children }) => {
                         build: '1.0'
                     }
                 })
-                console.log("the music: ", music)
+                // console.log("the music: ", music)
                 setMusicKit(music);
                 setInstance(music); 
                 // console.log("music kit instance: ", window.MusicKit.getInstance());

@@ -8,11 +8,12 @@ import { useNavigate } from "react-router-dom";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 export const UploadRoute = () => {
 	const { musicKit, instance } = useMusicKit();
-	const { selectedPlaylists } = usePlaylist();
+	const { selectedPlaylists, failedPlaylists, setFailedPlaylists } = usePlaylist();
 	let ref = useRef(false);
 	const [totalCount, setTotalCount] = useState(0);
 	const [counter, setCounter] = useState(0);
 	const navigate = useNavigate();
+	// const [failedPlaylists, setFailedPlaylists] = useState([]);
 
 	// process playlists and tracks
 	useEffect(() => {
@@ -29,7 +30,7 @@ export const UploadRoute = () => {
 			setTotalCount(count);
 
 			if (ref.current === false) {
-				uploadPlaylistsToAppleMusic(instance, selectedPlaylists, setCounter);
+				uploadPlaylistsToAppleMusic(instance, selectedPlaylists, setCounter, setFailedPlaylists);
 				ref.current = true;
 			}
 		};
@@ -38,13 +39,22 @@ export const UploadRoute = () => {
 
 	useEffect(() => {
 		if (totalCount !== 0 && counter === totalCount) {
-			navigate("/result")
+			console.log("totalCount: ", totalCount);
+			console.log("Counter: ", counter);
+			navigate("/result");
 		}
-	}, [counter, totalCount, navigate])
-	
+	}, [counter, totalCount, navigate]);
+
+	useEffect(() => {
+		const getFailedPlaylists = async () => {
+			console.log("failedplaylists: ", failedPlaylists);
+		};
+		getFailedPlaylists();
+	}, [failedPlaylists]);
+
 	useEffect(() => {
 		const getPlaylists = async () => {
-			console.log("chosen playlists in result: ", selectedPlaylists);
+			// console.log("chosen playlists in result: ", selectedPlaylists);
 		};
 		getPlaylists();
 	}, [selectedPlaylists]);
@@ -108,7 +118,7 @@ const addTracksToPlaylist = async (musicKitInstance, playlistId, body, setCounte
 			}
 		);
 		console.log(`Added track ${song.id}, status: ${response.status}`);
-        setCounterFunc(prev => prev + 1); // increment counter for every track added
+        //setCounterFunc(prev => prev + 1); // increment counter for every track added
 	}
 	return null;
 };
@@ -118,17 +128,18 @@ const addTracksToPlaylist = async (musicKitInstance, playlistId, body, setCounte
 const uploadPlaylistsToAppleMusic = async (
 	musicKitInstance,
 	playlists,
-    setCounterFunc
+    setCounterFunc,
+	setFailedPlaylistFunc
 ) => {
 	// map thru every playlist in playlists, create a playlist
 	// map thru songs (synchronously) and add to playlist
-	console.log("playlists: ", playlists);
+	// console.log("playlists: ", playlists);
 	for (const playlist of playlists) {
 		const songIdList = [];
 		for (const song of playlist.songs) {
-			console.log("song: ", song);
+			// console.log("song: ", song);
 			await delay(50); // Wait .05 second between each songId fetch
-			const songId = await getSongId(musicKitInstance, song.name, song.artist);
+			const songId = await getSongId(musicKitInstance, song.name, song.artist); // getting slng id from spotify
 			if (songId) {
 				const trackData = {
 					id: songId,
@@ -136,6 +147,16 @@ const uploadPlaylistsToAppleMusic = async (
 				};
 				songIdList.push(trackData);
 			} else {
+				// setFailedPlaylistFunc(prevPlaylists => ([...prevPlaylists, {[playlist.name]: [...prevPlaylists,`${song.name} by ${song.artist}`]}]));
+				// review this
+				setFailedPlaylistFunc(prevFailedPlaylists => {
+                    const updatedFailedPlaylists = { ...prevFailedPlaylists };
+                    if (!updatedFailedPlaylists[playlist.name]) {
+                        updatedFailedPlaylists[playlist.name] = [];
+                    }
+                    updatedFailedPlaylists[playlist.name].push(`${song.name} by ${song.artist}`);
+                    return updatedFailedPlaylists;
+                });
 				console.log(
 					"OOPS! The track with name: " +
 						song.name +
@@ -144,6 +165,7 @@ const uploadPlaylistsToAppleMusic = async (
 						" does not exist in Apple Music :("
 				);
 			}
+			setCounterFunc(prev => prev + 1); // increment counter for every song in playlist
 		}
 
 		let data = {
@@ -175,26 +197,31 @@ const uploadPlaylistsToAppleMusic = async (
 };
 
 const getSongId = async (musicKitInstance, songName, artist) => {
-	const url = new URL("https://api.music.apple.com/v1/catalog/us/search");
-	url.searchParams.append("term", `${songName} ${artist}`);
-	url.searchParams.append("types", "songs");
-	url.searchParams.append("limit", "1");
+    const url = new URL("https://api.music.apple.com/v1/catalog/us/search");
+    url.searchParams.append("term", `${songName} ${artist}`);
+    url.searchParams.append("types", "songs");
+    url.searchParams.append("limit", "1");
 
-	try {
-		const response = await fetch(url, {
-			method: "GET",
-			headers: getHeader(musicKitInstance),
-		});
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: getHeader(musicKitInstance),
+        });
 
-		const songData = await response.json();
-		if (songData) {
-			// if song exists in apple music, return the id
-			return songData.results.songs.data[0].id;
-		}
-		return null;
-	} catch (error) {
-		console.log("error: " + error);
-	}
+        const songData = await response.json();
+        console.log("song data in getSongId: ", songData);
+
+        // Check if songData.results exists and has a songs property
+        if (songData.results && songData.results.songs && songData.results.songs.data && songData.results.songs.data.length > 0) {
+            return songData.results.songs.data[0].id;
+        } else {
+            console.log(`No song found for: ${songName} by ${artist}`);
+            return null;
+        }
+    } catch (error) {
+        console.error(`Error fetching song ID for: ${songName} by ${artist}`, error);
+        return null;
+    }
 };
 
 const getSong = async (musicKitInstance, songId) => {

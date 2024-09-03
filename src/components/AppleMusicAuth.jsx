@@ -13,11 +13,11 @@ const AppleMusicAuth = () => {
 	const MotionButton = motion(Button);
 
 	const handleAuthorize = async () => {
-		console.log("clicking apple btn: ", musicKit);
+		// console.log("clicking apple btn: ", musicKit);
 		if (musicKit) {
 			try {
 				await musicKit.authorize();
-				console.log("Auth successful!");
+				// console.log("Auth successful!");
 				navigate("/upload");
 			} catch (error) {
 				console.error("Auth failed! ", error);

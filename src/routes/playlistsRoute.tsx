@@ -59,7 +59,7 @@ const PlaylistsRoute = () => {
 						};
 					});
 					// setPlaylists(prevPlaylists => [...prevPlaylists, ...formattedPlaylists])
-					console.log("formatted playlists: ", formattedPlaylists);
+					// console.log("formatted playlists: ", formattedPlaylists);
 					setPlaylists((prevPlaylists) => formattedPlaylists);
 				})
 				.catch((error) => console.error("Error fetching playlists:", error));
@@ -68,7 +68,7 @@ const PlaylistsRoute = () => {
 
 	// used for testing to see the selected playlists
 	useEffect(() => {
-		console.log("Updated selectedPlaylists:", selectedPlaylists);
+		// console.log("Updated selectedPlaylists:", selectedPlaylists);
 	}, [selectedPlaylists]);
 
 	return (
