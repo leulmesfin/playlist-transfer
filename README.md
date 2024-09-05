@@ -22,12 +22,4 @@ npm i
 npm run dev
 
 4. Run the backend api
-## Running the API
-
-1. Ensure you have Java 22 installed.
-2. Clone this repository.
-3. Navigate to the project directory.
-4. Run the API using the following command:
-
-   ```bash
-   ./gradlew bootRun
+- under construction
