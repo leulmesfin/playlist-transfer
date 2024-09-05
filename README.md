@@ -15,7 +15,7 @@ https://youtu.be/wukNB-JNbXw
 1. Clone the repository
 https://github.com/leulmesfin/transfer-playlists.git
 
-2. Install Dependencies
+2. Install Dependencies:
 npm i
 
 3. Start the frontend client:
