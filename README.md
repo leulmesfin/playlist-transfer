@@ -12,10 +12,10 @@ https://youtu.be/wukNB-JNbXw
 
 - Backend: Designed and implemented a RESTful API using Spring Boot to connect and handle requests to the Spotify Web API. Also, utilized Java to handle and parse data from the Spotify API.
 ## Installation Steps
-1. Clone the repository
+1. Clone the repository:
 https://github.com/leulmesfin/transfer-playlists.git
 
-2. Install Dependencies
+2. Install Dependencies:
 npm i
 
 3. Start the frontend client:
